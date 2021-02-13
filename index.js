@@ -1,59 +1,29 @@
+const express = require('express')
 const path = require('path')
-const fs = require('fs')
-const http = require('http');
-const querystring = require('querystring');
-const hostname = 'localhost';
-const port = 3000;
+const exphbs = require('express-handlebars')
+const mainRouter = require('./routes/main')
+const catRouter = require('./routes/catalog')
+const addRouter = require('./routes/add-goods')
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, {
-        'Content-type': 'text/html; charset=utf-8',
-    })
+const PORT = process.env.PORT || 3000
+const SERV = process.env.SERV || 'localhost'
 
-    if (req.method === 'GET') {
-        if (req.url === '/') {
-            fs.readFile(
-                path.join(__dirname, 'views', 'index.html'),
-                'utf-8',
-                (err, data) => {
-                    if (err) throw err
-                    res.end(data)
-                }
-            )
-        } else if (req.url === '/catalog') {
-            fs.readFile(
-                path.join(__dirname, 'views', 'goodses.html'),
-                'utf-8',
-                (err, data) => {
-                    if (err) throw err
-                    res.end(data)
-                }
-            )
-        } else {
-            res.writeHead(404, {
-                'Content-Type': 'text/plain; charset=utf-8',
-            })
-            res.end('404 error')
-        }
-    } else if (req.method === 'POST') {
-        const body = []
+const app = express()
 
-        console.log('POST');
+const hbs = exphbs.create({
+   defaultLayout: 'main',
+   extname: 'hbs',
+})
 
-        req.on('data', (data) => {
-            console.log(Buffer);
-            body.push(Buffer.from(data));
-        }).on('end', () => {
-            console.log("End");
-            res.writeHead(200, {
-                'Content-Type': 'application/json; charset=utf-8',
-            })
-            const message = JSON.stringify(querystring.parse(body.toString()));
-            res.end(message);
-        })
-    }
-});
+app.engine('hbs', hbs.engine)
+app.set('view engine', 'hbs')
+app.set('views', 'views')
+app.use(express.static('public'))
+app.use(express.urlencoded({ extended: true }))
+app.use('/', mainRouter)
+app.use('/catalog', catRouter)
+app.use('/catalog/add', addRouter)
 
-server.listen(port, hostname, () => {
-    console.log(`Server running at ${hostname}:${port}/`)
-});
+app.listen(PORT, SERV, () => {
+   console.log(`Server running as ${SERV}:${PORT}`)
+})

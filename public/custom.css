@@ -1,0 +1,13 @@
+.uk-logo {
+   font-weight: 700;
+   font-size: 1rem;
+}
+
+.uk-logo img {
+   height: 36px;
+   margin-right: 10px;
+}
+
+.uk-active {
+   background: #eee;
+}
