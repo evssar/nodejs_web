@@ -6,4 +6,16 @@
             <li {{#if isCatalog}}class="uk-active"{{/if}}><a href="/catalog">Каталог</a></li>
         </ul>
     </div>
+    <div class="uk-navbar-right">
+      <ul class="uk-navbar-nav">
+        <li {{#if isCart}}class="uk-active"{{/if}}>
+          <a href="/cart">
+            <span class="uk-margin-small-right uk-icon" 
+              uk-icon="icon: cart"></span>
+            Корзина
+          </a>
+        </li>
+      </ul>
+    </div>
+
 </nav>

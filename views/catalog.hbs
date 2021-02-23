@@ -2,4 +2,27 @@
 <hr>
 <a href="/catalog/add" class="uk-button uk-button-primary">Новый товар</a>
 <hr>
-
+{{#if goodses.length}}
+<div class="uk-child-width-1-4@s uk-grid-match" uk-grid>
+    {{#each goodses}}
+    <div>
+        <div class="uk-card uk-card-default">
+            <div class="uk-card-media-top uk-margin-small-top uk-margin-small-left uk-margin-small-right">
+                <img src="{{pic}}" alt="">
+            </div>
+            <div class="uk-card-body">
+                <h3 class="uk-card-title"><a href="/catalog/{{id}}">{{title}}</a></h3>
+                <div class="uk-clearfix uk-vertical-align">
+                    <div class="uk-vertical-align-bottom">
+                        <p class="uk-float-left price">{{price}}</p>
+                        <button class="uk-float-right uk-button-small uk-button-primary ajax-add" data-id="{{id}}">Купить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+{{else}}
+<p>В каталоге нечего нет</p>
+{{/if}}

@@ -1,28 +1,36 @@
 <h1>Добавить товар</h1>
 <hr>
 <div class="uk-child-width-1-2 uk-grid" uk-grid>
-         <form action="/catalog/add" method="post">
-         <div class="uk-margin">
-            <label class="uk-form-label" for="g-title">Название товара</label>
-               <div class="uk-form-controls">
-                  <input class="uk-input" id="g-title" type="text" placeholder="Введите название товара" name="gtitle" required>
-               </div>
+   <form action="/catalog/add" method="post">
+      <div class="uk-margin">
+         <label class="uk-form-label" for="g-title">Название товара</label>
+         <div class="uk-form-controls">
+            <input class="uk-input" id="g-title" type="text" placeholder="Введите название товара" name="gtitle"
+               required>
          </div>
-         <div class="uk-margin">
-            <label class="uk-form-label" for="g-price">Цена</label>
-               <div class="uk-form-controls">
-                  <input class="uk-input" id="g-price" type="number" placeholder="Введите цену" name="gprice" required min="1">
-               </div>
+      </div>
+      <div class="uk-margin uk-form-row">
+         <label class="uk-form-label" for="g-price">Цена</label>
+         <div class="uk-form-controls">
+            <input class="uk-input" id="g-price" type="number" placeholder="Введите цену" name="gprice" required
+               min="1">
          </div>
-         <div class="uk-margin">
-            <label class="uk-form-label" for="g-pic">Изображение товара</label>
-               <div class="uk-form-controls">
-                  <input class="uk-input" id="g-pic" type="text" placeholder="Введите название товара" name="gpic" required>
-               </div>
-         </div>                 
-         <div class="uk-margin">
-            <button class="uk-button uk-button-primary">Добавить</button>
-         </div> 
-      </form>
-   </div>
+      </div>
+      <div class="uk-margin uk-form-row">
+         <label class="uk-form-label" for="g-pic">Изображение товара</label>
+         <div class="uk-form-controls">
+            <input class="uk-input" id="g-pic" type="text" placeholder="Введите название товара" name="gpic" required>
+         </div>
+      </div>
+      <div class="uk-margin uk-form-row">
+         <label class="uk-form-label" for="g-desc">Описание</label>
+         <div class="uk-form-controls">
+            <textarea cols="40" rows="" placeholder="Описание" name="gdesc"></textarea>
+         </div>
+      </div>
+      <div class="uk-margin">
+         <button class="uk-button uk-button-primary">Добавить</button>
+      </div>
+   </form>
+</div>
 </div>

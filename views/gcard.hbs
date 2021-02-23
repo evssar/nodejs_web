@@ -1,0 +1,23 @@
+<div class="uk-child-width-1-1@m">
+   <div>
+      <div class="uk-card uk-card-default">
+         <div class="uk-card-media-top">
+            <img class="uk-align-center" src="{{goods.pic}}" alt="">
+         </div>
+         <div class="uk-card-body">
+            <h3 class="uk-card-title">{{goods.title}}</h3>
+            <p>{{goods.desc}}</p>
+            <p class="price card">{{goods.price}}</p>
+         </div>
+         <div class="uk-card-footer">
+            <div class="uk-flex uk-flex-center@m uk-flex-right@l">
+               <a href="/catalog/{{goods.id}}/edit" class="uk-button uk-button-primary">Изменить</a>
+               <form class="" action="/catalog/delete" method="POST">
+                  <input type="hidden" name="gid" value="{{goods.id}}">
+                  <button type="submit" class="uk-button uk-button-danger">Удалить</button>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
