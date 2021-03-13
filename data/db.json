@@ -1,1 +1,23 @@
-[{"id":"71b96bf8-8a60-49d6-a048-1efcbd2d1014","title":"Pimax 5K Plus VR","price":"79990","pic":"https://avatars.mds.yandex.net/get-mpic/1924580/img_id6136666235628395219.jpeg/13hq","desc":"Шлем виртуальной реальности Pimax 5K Plus VR"},{"id":"284c7445-3e50-485e-9e79-7357c696becd","title":"Oculus Quest - 64 GB","price":"36990","pic":"https://avatars.mds.yandex.net/get-mpic/1246680/img_id5856375941235715625.jpeg/13hq","desc":"Шлем виртуальной реальности Oculus Quest - 64 GB"},{"id":"ebec0b2d-16fa-43c1-95aa-da7ee2b00172","title":"HP Windows Mixed Reality Headset","price":"146490","pic":"https://avatars.mds.yandex.net/get-mpic/1749547/img_id3825352857789321533.jpeg/13hq","desc":"Шлем виртуальной реальности HP Windows Mixed Reality Headset"}]
+[
+    {
+        "id": "71b96bf8-8a60-49d6-a048-1efcbd2d1014",
+        "title": "Pimax 5K Plus VR",
+        "price": "79990",
+        "pic": "https://avatars.mds.yandex.net/get-mpic/1924580/img_id6136666235628395219.jpeg/13hq",
+        "desc": "Шлем виртуальной реальности Pimax 5K Plus VR"
+    },
+    {
+        "id": "284c7445-3e50-485e-9e79-7357c696becd",
+        "title": "Oculus Quest - 64 GB",
+        "price": "36990",
+        "pic": "https://avatars.mds.yandex.net/get-mpic/1246680/img_id5856375941235715625.jpeg/13hq",
+        "desc": "Шлем виртуальной реальности Oculus Quest - 64 GB"
+    },
+    {
+        "id": "ebec0b2d-16fa-43c1-95aa-da7ee2b00172",
+        "title": "HP Windows Mixed Reality Headset",
+        "price": "146490",
+        "pic": "https://avatars.mds.yandex.net/get-mpic/1749547/img_id3825352857789321533.jpeg/13hq",
+        "desc": "Шлем виртуальной реальности HP Windows Mixed Reality Headset"
+    }
+]

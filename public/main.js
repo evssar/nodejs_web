@@ -17,7 +17,6 @@ function configureEvents() {
 
    document.querySelectorAll('.ajax-add').forEach((element) => {
       const goodsId = element.getAttribute('data-id')
-      console.log(goodsId)
       element.addEventListener('click', () => {
          addGoodsToCart(goodsId)
       })
@@ -44,9 +43,9 @@ function removeGoodsFromCart(goodsId) {
             <td>${c.title}</td>
                <td>${c.count}</td>
                <td class="price">${c.price}</td>
-               <td class="price mult">${c.count * c.price}</td>
+               <!-- <td class="price mult">${c.count * c.price}</td> -->
                <td>
-                  <button class="uk-button-small uk-button-danger ajax-remove" data-id="${c.id
+                  <button class="uk-button-small uk-button-danger ajax-remove" data-id="${c._id
                      }">Удалить</button>
                </td>
             </tr>
@@ -54,11 +53,7 @@ function removeGoodsFromCart(goodsId) {
                })
                .join('')
             cart.querySelector('tbody').innerHTML = html
-            let cartSum = 0
-            cart.querySelectorAll('.mult').forEach((node) => {
-               cartSum += +node.innerHTML
-            })
-            cart.querySelector('.sum').innerHTML = cartSum
+            cart.querySelector('.sum').innerHTML = cartData.price
             cart.querySelectorAll('.price').forEach((node) => {
                node.textContent = toCurrency(node.textContent)
             })
@@ -71,15 +66,12 @@ function removeGoodsFromCart(goodsId) {
 }
 
 function addGoodsToCart(goodsId) {
-   console.log(goodsId)
    var body = JSON.stringify({ "id": goodsId })
-   console.log(body)
    fetch('/cart/add/' + goodsId, {
       method: 'POST'
    })
       .then((res) => res.json())
       .then((cart) => {
-         console.log("Product added to cart")
          configureEvents()
       })
 }

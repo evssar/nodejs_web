@@ -7,6 +7,7 @@
     <tr>
       <th>Название</th>
       <th>Количество</th>
+      <th>Цена за единицу товара</th>
       <th>Действия</th>
     </tr>
   </thead>
@@ -17,9 +18,9 @@
       <td>{{title}}</td>
       <td>{{count}}</td>
       <td class="price">{{price}}</td>
-      <td class="price mult">{{mult count price}}</td>
+      {{!-- <td class="price mult">{{mult count price}}</td> --}}
       <td>
-        <button class="uk-button-small uk-button-danger ajax-remove" data-id="{{id}}">Удалить</button>
+        <button class="uk-button-small uk-button-danger ajax-remove" data-id="{{_id}}">Удалить</button>
       </td>
     </tr>
     {{/each}}
@@ -33,3 +34,4 @@
 <p>Корзина пуста</p>
 {{/if}}
 </div>
+<script src="main.js"></script>
