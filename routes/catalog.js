@@ -2,26 +2,27 @@ const { Router } = require('express')
 const fs = require('fs')
 const path = require('path')
 const Goods = require('../models/goods')
+const { Utils } = require('../models/Utils')
 const router = Router()
 
 router.get('/', async (req, res) => {
-   let goodses = await Catalog.get()
+   const goodses = await Goods.find()
    res.render('catalog', {
-      title: 'Каталог VR-оборудования',
-      goodses: goodses,
+      title: 'Кталог VR-оборудования',
       isCatalog: true,
+      goodses,
    })
 })
 
 router.get('/:id', async (req, res) => {
    const id = req.params.id
-      if (id === 'add') {
+   if (id === 'add') {
       res.render('add-goods', {
          title: 'Новый товар',
          isAdd: true,
       })
    } else {
-      const goods = await Goods.getById(req.params.id)
+      const goods = await Goods.findById(req.params.id)
       res.render('gcard', {
          goods,
       })
@@ -29,27 +30,40 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/add', async (req, res) => {
-   const goodses = new Goods(req.body.gtitle, req.body.gprice, req.body.gpic, req.body.gdesc)
-   await goodses.save()
-   res.redirect('/catalog')
+   const goodses = new Goods({
+      title: req.body.gtitle,
+      price: req.body.gprice,
+      pic: req.body.gpic,
+      desc: req.body.gdesc
+   })
+
+   try {
+      await goodses.save()
+      res.redirect('/catalog')
+   } catch (error){
+      console.log(error)
+   }
 })
 
 router.get('/:id/edit', async (req, res) => {
-   const id = req.params.id
-   const goods = await Goods.getById(id)
-   console.log(goods)
+   const goods = await Goods.findById(req.params.id)
    res.render('edit-goods', {
       goods: goods
    })
 })
 
 router.post('/edit', async (req, res) => {
-   await Goods.update(req.body)
+   const { gid } = req.body
+   delete req.body.gid
+   const goods = Utils.convGoods(req.body)
+   await Goods.findByIdAndUpdate(gid, goods)
    res.redirect('/catalog')
 })
 
 router.post('/delete', async (req, res) => {
-   await Goods.delete(req.body.gid)
+   const { gid } = req.body
+   delete req.body.gid
+   await Goods.findByIdAndDelete(gid)
    res.redirect('/catalog')
 })
 
