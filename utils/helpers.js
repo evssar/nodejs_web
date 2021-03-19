@@ -8,7 +8,6 @@ module.exports = {
     },
     ifeq(var1, var2, options) {
         if (var1 === var2) return options.fn(this)
-
         return options.inverse(this)
     },
 }

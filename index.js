@@ -12,16 +12,13 @@ const flash = require('connect-flash')
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access')
 const session = require('express-session')
 const MongoSession = require('connect-mongodb-session')(session)
+const settings = require('./settings/index')
 
 const app = express()
-const PORT = process.env.PORT || 3000
-const SERV = process.env.SERV || 'localhost'
-const MDB_PASS = 'absolute'
-const MDB_URL = `mongodb+srv://nodejs:${MDB_PASS}@cluster0.d5gxy.mongodb.net/vrbase?retryWrites=true&w=majority`
 
 const store = new MongoSession({
    collection: 'sessions',
-   uri: MDB_URL,
+   uri: settings.MDB_URL,
    autoIndex: true
 })
 
@@ -36,7 +33,7 @@ const expressHandlebars = ExpressHandlebars.create({
 
 app.use(
    session({
-      secret: 'very_secret_string',
+      secret: settings.SECRET,
       resave: false,
       saveUninitialized: false,
       store,
@@ -49,7 +46,7 @@ app.use(flash())
 app.engine('hbs', expressHandlebars.engine)
 app.set('view engine', 'hbs')
 app.set('views', 'views')
-app.use(express.static('public'))
+app.use(express.static(settings.DIR_PUBLIC))
 app.use(express.urlencoded({ extended: true }))
 
 app.use('/', mainRouter)
@@ -59,12 +56,12 @@ app.use('/auth', authRoute)
 
 async function start() {
    try {
-      await mongoose.connect(MDB_URL, {
+      await mongoose.connect(settings.MDB_URL, {
          useNewUrlParser: true,
          useUnifiedTopology: true,
       })
-      app.listen(PORT, () => {
-         console.log(`Server running at ${PORT}`)
+      app.listen(settings.PORT, () => {
+         console.log(`Server running at ${settings.PORT}`)
       })
    } catch (error) {
       console.log(error)

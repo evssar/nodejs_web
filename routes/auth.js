@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const router = Router()
 const { validationResult } = require('express-validator')
 const { signupValidators } = require('../utils/validators')
+const mailRegister = require('../utils/emails/registration')
+const mailer = require('../utils/mailer')
 
 router.get('/login', (req, res) => {
    var isLogin = true
@@ -35,6 +37,7 @@ router.post('/signup', signupValidators, async (req, res) => {
 
       await user.save();
       res.redirect('/auth/login');
+      mailer(mailRegister(email))
    } catch (err) {
       if (err.keyPattern.email) {
          req.flash(
