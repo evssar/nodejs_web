@@ -1,9 +1,9 @@
 class Utils {
-    static convGoods(gobj) {
+    static convGoods(gobj, file) {
        return {
           title: gobj.gtitle,
           price: gobj.gprice,
-          pic: gobj.gpic,
+          pic: file ? '/img/' + file.filename : '',
           desc: gobj.gdesc,
        }
     }

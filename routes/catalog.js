@@ -1,10 +1,11 @@
 const { Router } = require('express')
+const multer = require('multer')
+const util = require('util')
 const { validationResult } = require('express-validator')
 const { goodsValidator } = require('../utils/validators')
-const fs = require('fs')
-const path = require('path')
 const Goods = require('../models/goods')
 const { Utils } = require('../models/Utils')
+const upload = require('../utils/upload')
 const router = Router()
 
 router.get('/', async (req, res) => {
@@ -16,25 +17,58 @@ router.get('/', async (req, res) => {
    })
 })
 
-router.get('/:id', async (req, res) => {
-   const id = req.params.id
-   if (id === 'add') {
-      res.render('add-goods', {
-         title: 'Новый товар',
-         isAdd: true,
-      })
-   } else {
-      const goods = await Goods.findById(req.params.id)
-      res.render('gcard', {
-         goods,
-      })
-   }
+router.get('/add', async (req, res) => {
+   res.render('add-goods', {
+      title: 'Новый товар',
+      isAdd: true,
+   })
 })
 
-router.post('/add', goodsValidator, async (req, res) => {
-   const errors = validationResult(req)
-   
-   if (!errors.isEmpty()) {
+router.get('/products/:id', async (req, res) => {
+   const id = req.params.id
+   const goods = await Goods.findById(req.params.id)
+   res.render('gcard', {
+      goods,
+   })
+})
+
+router.post('/add', upload.single('gpic'), goodsValidator, async (req, res) => {
+   try {
+      const errors = validationResult(req)
+
+      if (!errors.isEmpty()) {
+         return res.status(422).render('add-goods', {
+            title: 'Новый товар',
+            isAdd: true,
+            error: errors.array()[0].msg,
+            data: {
+               title: req.body.gtitle,
+               price: req.body.gprice,
+               desc: req.body.gdesc,
+            }
+         })
+      }
+
+      const goodses = new Goods({
+         title: req.body.gtitle,
+         price: req.body.gprice,
+         pic: req.file ? '/img/' + req.file.filename : '',
+         desc: req.body.gdesc
+      })
+
+      await goodses.save();
+      res.redirect('/catalog');
+   } catch (error) {
+      console.log(error)
+
+      var message = ''
+
+      if (err instanceof multer.MulterError) {
+         message = `Ошибка загрузки файла: ${err.message}`
+      } else if (err) {
+         message = `Что-то пошло не так. Попробуйте обновить страницу.`
+      }
+
       return res.status(422).render('add-goods', {
          title: 'Новый товар',
          isAdd: true,
@@ -42,24 +76,9 @@ router.post('/add', goodsValidator, async (req, res) => {
          data: {
             title: req.body.gtitle,
             price: req.body.gprice,
-            pic: req.body.gpic,
             desc: req.body.gdesc,
          }
       })
-   }
-
-   const goodses = new Goods({
-      title: req.body.gtitle,
-      price: req.body.gprice,
-      pic: req.body.gpic,
-      desc: req.body.gdesc
-   })
-
-   try {
-      await goodses.save()
-      res.redirect('/catalog')
-   } catch (error) {
-      console.log(error)
    }
 })
 
@@ -70,11 +89,13 @@ router.get('/:id/edit', async (req, res) => {
    })
 })
 
-router.post('/edit', async (req, res) => {
+router.post('/edit', upload.single('gpic'), async (req, res) => {
    const { gid } = req.body
    delete req.body.gid
-   const goods = Utils.convGoods(req.body)
+   console.log(gid)
+   const goods = Utils.convGoods(req.body, req.file)
    await Goods.findByIdAndUpdate(gid, goods)
+
    res.redirect('/catalog')
 })
 
@@ -86,18 +107,18 @@ router.post('/delete', async (req, res) => {
 })
 
 class Catalog {
-      static get() {
-         return new Promise((resolve, reject) => {
-            fs.readFile(
-               path.join(__dirname, '..', 'data', 'db.json'),
-               'utf-8',
-               (err, data) => {
-                  if (err) reject(err)
-                  else resolve(JSON.parse(data))
-               }
-            )
-         })
-      }
+   static get() {
+      return new Promise((resolve, reject) => {
+         fs.readFile(
+            path.join(__dirname, '..', 'data', 'db.json'),
+            'utf-8',
+            (err, data) => {
+               if (err) reject(err)
+               else resolve(JSON.parse(data))
+            }
+         )
+      })
    }
+}
 
 module.exports = router

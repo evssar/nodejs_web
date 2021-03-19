@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const ExpressHandlebars = require('express-handlebars')
+const varsMiddleware = require('./middleware/vars')
 const mainRouter = require('./routes/main')
 const catRouter = require('./routes/catalog')
 const cartRouter = require('./routes/cart')
@@ -11,7 +12,6 @@ const flash = require('connect-flash')
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access')
 const session = require('express-session')
 const MongoSession = require('connect-mongodb-session')(session)
-const varsMiddleware = require('./middleware/vars')
 
 const app = express()
 const PORT = process.env.PORT || 3000

@@ -1,7 +1,7 @@
 <h1>Редактирование товара</h1>
 <hr>
 <div class="uk-child-width-1-2 uk-grid" uk-grid>
-    <form action="/catalog/edit" method="post">
+    <form action="/catalog/edit" method="post" class="uk-form-stacked" enctype="multipart/form-data">
         <input id="g-id" name="gid" type="hidden" value="{{goods.id}}" />
         <div class="uk-margin">
             <label class="uk-form-label" for="g-title">Название товара</label>
@@ -17,19 +17,20 @@
                     name="gprice" required min="1">
             </div>
         </div>
-        <div class="uk-margin">
-            <label class="uk-form-label" for="g-pic">Изображение товара</label>
-            <div class="uk-form-controls">
-                <input class="uk-input" id="g-pic" value="{{goods.pic}}" type="text"
-                    placeholder="Введите название товара" name="gpic" required>
-            </div>
-        </div>
-        <div class="uk-margin uk-form-row">
-         <label class="uk-form-label" for="g-desc">Описание</label>
-         <div class="uk-form-controls">
-            <textarea cols="40" rows="" placeholder="Описание" name="gdesc">{{goods.desc}}</textarea>
+        <div class="uk-margin ">
+         <label class="uk-form-label" for="g-pic">Изображение товара</label>
+         <div uk-form-custom="target: true">
+            <input type="file" name="gpic">
+            <input class="uk-input uk-form-width-medium" type="text" placeholder="Изображение" disabled name="gfile" value="{{data.pic}}">
+            <button class="uk-button uk-button-default" type="button" tabindex="-1">Выбрать</button>
          </div>
       </div>
+        <div class="uk-margin uk-form-row">
+            <label class="uk-form-label" for="g-desc">Описание</label>
+            <div class="uk-form-controls">
+                <textarea cols="40" rows="" placeholder="Описание" name="gdesc">{{goods.desc}}</textarea>
+            </div>
+        </div>
         <div class="uk-margin">
             <button class="uk-button uk-button-primary">Сохранить</button>
         </div>
