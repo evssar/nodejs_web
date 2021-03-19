@@ -11,11 +11,13 @@
          </div>
          <div class="uk-card-footer">
             <div class="uk-flex uk-flex-center@m uk-flex-right@l">
-               <a href="/catalog/{{goods.id}}/edit" class="uk-button uk-button-primary">Изменить</a>
-               <form class="" action="/catalog/delete" method="POST">
-                  <input type="hidden" name="gid" value="{{goods.id}}">
+               {{#iftrue isAuth isAdmin}}
+               <a href="/catalog/{{goods._id}}/edit" class="uk-button uk-button-primary">Изменить</a>
+               <form action="/catalog/delete" method="POST">
+                  <input type="hidden" name="gid" value="{{goods._id}}">
                   <button type="submit" class="uk-button uk-button-danger">Удалить</button>
                </form>
+               {{/iftrue}}
             </div>
          </div>
       </div>

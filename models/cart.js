@@ -26,10 +26,8 @@ class Cart {
         const goods = cart.goodses[i]
 
         if (goods.count === 1) {
-            // если осталься только 1 такой товар
             cart.goodses = cart.goodses.filter((c) => c._id.toString() !== goodsId.toString())
         } else {
-            // изменить количество
             cart.goodses[i].count--
         }
 

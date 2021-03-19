@@ -1,31 +1,37 @@
 <h1>Добавить товар</h1>
 <hr>
+{{#if error}}
+   <div class="uk-alert-danger" uk-alert>
+      <a class="uk-alert-close" uk-close></a>
+      <p>{{error}}</p>
+   </div>
+{{/if}}
 <div class="uk-child-width-1-2 uk-grid" uk-grid>
    <form action="/catalog/add" method="post">
       <div class="uk-margin">
          <label class="uk-form-label" for="g-title">Название товара</label>
          <div class="uk-form-controls">
             <input class="uk-input" id="g-title" type="text" placeholder="Введите название товара" name="gtitle"
-               required>
+               required value="{{data.title}}">
          </div>
       </div>
       <div class="uk-margin uk-form-row">
          <label class="uk-form-label" for="g-price">Цена</label>
          <div class="uk-form-controls">
             <input class="uk-input" id="g-price" type="number" placeholder="Введите цену" name="gprice" required
-               min="1">
+               min="1" value="{{data.price}}">
          </div>
       </div>
       <div class="uk-margin uk-form-row">
          <label class="uk-form-label" for="g-pic">Изображение товара</label>
          <div class="uk-form-controls">
-            <input class="uk-input" id="g-pic" type="text" placeholder="Введите название товара" name="gpic" required>
+            <input class="uk-input" id="g-pic" type="text" placeholder="Введите название товара" name="gpic" required  value="{{data.pic}}">
          </div>
       </div>
       <div class="uk-margin uk-form-row">
          <label class="uk-form-label" for="g-desc">Описание</label>
          <div class="uk-form-controls">
-            <textarea cols="40" rows="" placeholder="Описание" name="gdesc"></textarea>
+            <textarea cols="40" rows="" placeholder="Описание" name="gdesc">{{desc}}</textarea>
          </div>
       </div>
       <div class="uk-margin">

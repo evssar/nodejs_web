@@ -1,34 +1,37 @@
 const express = require('express')
 const path = require('path')
-const exphbs = require('express-handlebars')
+const ExpressHandlebars = require('express-handlebars')
 const mainRouter = require('./routes/main')
 const catRouter = require('./routes/catalog')
 const cartRouter = require('./routes/cart')
+const authRoute = require('./routes/auth')
 const mongoose = require('mongoose')
-const h = require('handlebars')
+const handlebars = require('handlebars')
+const flash = require('connect-flash')
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access')
 const session = require('express-session')
-const varsMw = require('./middleware/vars')
 const MongoSession = require('connect-mongodb-session')(session)
+const varsMiddleware = require('./middleware/vars')
 
 const app = express()
 const PORT = process.env.PORT || 3000
 const SERV = process.env.SERV || 'localhost'
 const MDB_PASS = 'absolute'
 const MDB_URL = `mongodb+srv://nodejs:${MDB_PASS}@cluster0.d5gxy.mongodb.net/vrbase?retryWrites=true&w=majority`
+
 const store = new MongoSession({
    collection: 'sessions',
    uri: MDB_URL,
+   autoIndex: true
 })
 
-const hbs = exphbs.create({
-   handlebars: allowInsecurePrototypeAccess(h),
+mongoose.set('debug', true);
+
+const expressHandlebars = ExpressHandlebars.create({
+   handlebars: allowInsecurePrototypeAccess(handlebars),
    defaultLayout: 'main',
    extname: 'hbs',
-})
-
-h.registerHelper('mult', function (var1, var2) {
-   return new h.SafeString(var1 * var2)
+   helpers: require('./utils/helpers'),
 })
 
 app.use(
@@ -40,16 +43,19 @@ app.use(
    })
 )
 
-app.use(varsMw)
+app.use(varsMiddleware)
+app.use(flash())
 
-app.engine('hbs', hbs.engine)
+app.engine('hbs', expressHandlebars.engine)
 app.set('view engine', 'hbs')
 app.set('views', 'views')
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: true }))
+
 app.use('/', mainRouter)
 app.use('/catalog', catRouter)
 app.use('/cart', cartRouter)
+app.use('/auth', authRoute)
 
 async function start() {
    try {
