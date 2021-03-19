@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
       cb(null, 'public/img')
    },
    filename(req, file, cb) {
-      cb(null, hash + path.extname(file.originalname))
+      cb(null, hash + path.basename(file.originalname))
    },
 })
 
