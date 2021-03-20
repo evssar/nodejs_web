@@ -49,9 +49,9 @@ app.use(
    helmet({
       contentSecurityPolicy: {
          directives: {
-            /*'default-src': ['*'],
+            'default-src': ['*'],
             'img-src': ['*'],
-            'script-src': ['*'],*/
+            'script-src': ['*'],
          },
       },
    })
