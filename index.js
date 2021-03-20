@@ -1,4 +1,5 @@
 const express = require('express')
+const helmet = require('helmet')
 const path = require('path')
 const ExpressHandlebars = require('express-handlebars')
 const varsMiddleware = require('./middleware/vars')
@@ -40,14 +41,31 @@ app.use(
    })
 )
 
+// MARK: Middlewares
+
 app.use(varsMiddleware)
 app.use(flash())
+app.use(
+   helmet({
+      contentSecurityPolicy: {
+         directives: {
+            'default-src': ['*'],
+            'img-src': ['*'],
+            'script-src': ['*'],
+         },
+      },
+   })
+)
+
+// MARK: Settings
 
 app.engine('hbs', expressHandlebars.engine)
 app.set('view engine', 'hbs')
 app.set('views', 'views')
 app.use(express.static(settings.DIR_PUBLIC))
 app.use(express.urlencoded({ extended: true }))
+
+// MARK: Routes
 
 app.use('/', mainRouter)
 app.use('/catalog', catRouter)
