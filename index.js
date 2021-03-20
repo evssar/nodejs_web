@@ -23,7 +23,7 @@ const store = new MongoSession({
    autoIndex: true
 })
 
-mongoose.set('debug', true);
+/* mongoose.set('debug', true); */
 
 const expressHandlebars = ExpressHandlebars.create({
    handlebars: allowInsecurePrototypeAccess(handlebars),
@@ -49,9 +49,9 @@ app.use(
    helmet({
       contentSecurityPolicy: {
          directives: {
-            'default-src': ['*'],
+            /*'default-src': ['*'],
             'img-src': ['*'],
-            'script-src': ['*'],
+            'script-src': ['*'],*/
          },
       },
    })
