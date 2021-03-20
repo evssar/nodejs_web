@@ -28,10 +28,11 @@ router.get('/login', (req, res) => {
 router.post('/signup', signupValidators, async (req, res) => {
    const errors = validationResult(req)
 
-   if (!errors.isEmpty()) {
+   // TODO: Fix error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client
+   /*if (!errors.isEmpty()) {
       req.flash('err-signup', errors.array()[0].msg)
       return res.status(422).redirect(res.redirect('/auth/login/?login=false'))
-   }
+   }*/
 
    try {
       const { name, email, password, repeat } = req.body;
